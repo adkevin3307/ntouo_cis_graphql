@@ -4,11 +4,41 @@ type Query {
 
 type Course {
     information: Information
+    guideline: Guideline
 }
 
 type Information {
-    id: ID
+    id: ID!
+    yearSemester: String
+    facultyName: String
+    professor: String
     name: Bilingual
+    grade: String
+    credit: Int
+    hour: Int
+    maxStudents: Int
+    minStudents: Int
+    students: Int
+    category: String
+    duration: String
+    internship: String
+    classSchedule: [String]
+    classroom: [String]
+    mainField: String
+    subField: String
+    description: String
+    coProfessors: [String]
+}
+
+type Guideline {
+    objective: Bilingual
+    preCourse: Bilingual
+    outline: Bilingual
+    teachingMethod: Bilingual
+    reference: Bilingual
+    syllabus: Bilingual
+    evaluation: Bilingual
+    referenceLink: String
 }
 
 type Bilingual {
