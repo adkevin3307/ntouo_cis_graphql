@@ -1,0 +1,17 @@
+type Query {
+    courseId(id: ID!): Course
+}
+
+type Course {
+    information: Information
+}
+
+type Information {
+    id: ID
+    name: Bilingual
+}
+
+type Bilingual {
+    english: String
+    chinese: String
+}
