@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
@@ -107,19 +106,7 @@ public class CourseHandler {
         return result;
     }
 
-    public Course getCourse(String id) {
-        Course match = this.courses.stream().filter(
-            course -> course.getInformation().getId().equals(id)
-        ).findFirst().orElse(null);
-
-        return match;
-    }
-
-    public List<Course> getCourses(String id) {
-        List<Course> matches = this.courses.stream().filter(
-            course -> course.getInformation().getId().contains(id)
-        ).collect(Collectors.toList());
-
-        return matches;
+    public List<Course> getCourses() {
+        return this.courses;
     }
 }

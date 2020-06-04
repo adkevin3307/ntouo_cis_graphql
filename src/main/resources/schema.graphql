@@ -1,5 +1,5 @@
 type Query {
-    courseId(id: ID!): Course
+    courses(filter: CourseFilterInput): [Course]
 }
 
 type Course {
@@ -44,4 +44,9 @@ type Guideline {
 type Bilingual {
     english: String
     chinese: String
+}
+
+input CourseFilterInput {
+    id: ID
+    name: String
 }
