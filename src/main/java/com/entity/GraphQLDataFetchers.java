@@ -20,6 +20,15 @@ public class GraphQLDataFetchers {
         this.handler = handler;
     }
 
+    public DataFetcher getCourseDataFetcher() {
+        return dataFetchingEnvironment -> {
+            return this.handler.getCourse(
+                dataFetchingEnvironment.getArgument("id"),
+                dataFetchingEnvironment.getArgument("grade")
+            );
+        };
+    }
+
     public DataFetcher getCoursesDataFetcher() {
         return dataFetchingEnvironment -> {
             Map<String, Object> filter = new HashMap<String, Object>();

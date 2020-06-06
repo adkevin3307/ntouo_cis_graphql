@@ -1,4 +1,5 @@
 type Query {
+    course(id: ID!, grade: String!): Course!
     courses(filter: CourseFilterInput): [Course]
 }
 

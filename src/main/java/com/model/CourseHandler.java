@@ -110,6 +110,14 @@ public class CourseHandler {
         return result;
     }
 
+    public Course getCourse(String id, String grade) {
+        return this.courses.stream().filter(
+            course -> course.getInformation().getId().equals(id)
+        ).filter(
+            course -> course.getInformation().getGrade().equals(grade)
+        ).findFirst().orElse(null);
+    }
+
     public List<Course> getCourses(Map<String, Object> filter) {
         Stream<Course> result = this.courses.stream();
 
