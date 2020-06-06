@@ -23,6 +23,7 @@ import com.google.gson.JsonObject;
 
 import org.springframework.stereotype.Component;
 
+@SuppressWarnings("unchecked")
 @Component
 public class CourseHandler {
     private List<Course> courses;
@@ -90,7 +91,7 @@ public class CourseHandler {
         result.put("category", "category");
         result.put("duration", "duration");
         result.put("internship", "internship");
-        result.put("class_schedule", "classSchedule");
+        result.put("class_schedule", "schedule");
         result.put("classroom", "classroom");
         result.put("main_field", "mainField");
         result.put("sub_field", "subField");
@@ -109,7 +110,7 @@ public class CourseHandler {
         return result;
     }
 
-    public List<Course> getCourses(Map<String, String> filter) {
+    public List<Course> getCourses(Map<String, Object> filter) {
         Stream<Course> result = this.courses.stream();
 
         if (filter.containsKey("id")) {
@@ -151,6 +152,50 @@ public class CourseHandler {
             result = result.filter(
                 course -> course.getInformation().getDescription().contains(filter.get("description").toString())
             );
+        }
+        if (filter.containsKey("grade")) {
+            result = result.filter(
+                course -> course.getInformation().getGrade().contains(filter.get("grade").toString())
+            );
+        }
+        if (filter.containsKey("category")) {
+            result = result.filter(
+                course -> course.getInformation().getCategory().contains(filter.get("category").toString())
+            );
+        }
+        if (filter.containsKey("schedule")) {
+            ArrayList<String> schedules = (ArrayList<String>) filter.get("schedule");
+
+            List<Course> temp = result.collect(Collectors.toList());
+            ArrayList<Course> output = new ArrayList<Course>();
+
+            for (int i = 0; i < temp.size(); i++) {
+                for (String schedule : schedules) {
+                    if (temp.get(i).getInformation().getSchedule().contains(schedule)) {
+                        output.add(temp.get(i));
+                        break;
+                    }
+                }
+            }
+
+            result = output.stream();
+        }
+        if (filter.containsKey("classroom")) {
+            ArrayList<String> classrooms = (ArrayList<String>) filter.get("classroom");
+
+            List<Course> temp = result.collect(Collectors.toList());
+            ArrayList<Course> output = new ArrayList<Course>();
+
+            for (int i = 0; i < temp.size(); i++) {
+                for (String classroom : classrooms) {
+                    if (temp.get(i).getInformation().getSchedule().contains(classroom)) {
+                        output.add(temp.get(i));
+                        break;
+                    }
+                }
+            }
+
+            result = output.stream();
         }
 
         return result.collect(Collectors.toList());

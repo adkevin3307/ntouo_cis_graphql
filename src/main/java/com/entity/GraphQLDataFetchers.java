@@ -22,7 +22,7 @@ public class GraphQLDataFetchers {
 
     public DataFetcher getCoursesDataFetcher() {
         return dataFetchingEnvironment -> {
-            Map<String, String> filter = new HashMap<String, String>();
+            Map<String, Object> filter = new HashMap<String, Object>();
             
             if (dataFetchingEnvironment.containsArgument("filter")) {
                 filter = dataFetchingEnvironment.getArgument("filter");

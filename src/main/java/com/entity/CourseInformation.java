@@ -18,7 +18,7 @@ public class CourseInformation {
     private String category;
     private String duration;
     private String internship;
-    private ArrayList<String> classSchedule;
+    private ArrayList<String> schedule;
     private ArrayList<String> classroom;
     private String mainField;
     private String subField;
@@ -137,12 +137,12 @@ public class CourseInformation {
         this.internship = internship;
     }
 
-    public ArrayList<String> getClassSchedule() {
-        return this.classSchedule;
+    public ArrayList<String> getSchedule() {
+        return this.schedule;
     }
 
-    public void setClassSchedule(ArrayList<String> classSchedule) {
-        this.classSchedule = classSchedule;
+    public void setClassSchedule(ArrayList<String> schedule) {
+        this.schedule = schedule;
     }
 
     public ArrayList<String> getClassroom() {
@@ -202,7 +202,7 @@ public class CourseInformation {
             ", category='" + category + "'" +
             ", duration='" + duration + "'" +
             ", internship='" + internship + "'" +
-            ", classSchedule='" + classSchedule + "'" +
+            ", schedule='" + schedule + "'" +
             ", classroom='" + classroom + "'" +
             ", mainField='" + mainField + "'" +
             ", subField='" + subField + "'" +

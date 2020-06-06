@@ -22,7 +22,7 @@ type Information {
     category: String
     duration: String
     internship: String
-    classSchedule: [String]
+    schedule: [String]
     classroom: [String]
     mainField: String
     subField: String
@@ -54,4 +54,8 @@ input CourseFilterInput {
     mainField: String
     subField: String
     description: String
+    grade: String
+    category: String
+    schedule: [String!]
+    classroom: [String!]
 }
