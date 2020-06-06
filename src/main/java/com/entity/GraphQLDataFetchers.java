@@ -1,10 +1,8 @@
 package com.entity;
 
+import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import com.google.common.base.Predicate;
 import com.model.CourseHandler;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,31 +22,13 @@ public class GraphQLDataFetchers {
 
     public DataFetcher getCoursesDataFetcher() {
         return dataFetchingEnvironment -> {
+            Map<String, String> filter = new HashMap<String, String>();
+            
             if (dataFetchingEnvironment.containsArgument("filter")) {
-                Map<String, String> filter = dataFetchingEnvironment.getArgument("filter");
-
-                Stream<Course> result = this.handler.getCourses().stream();
-
-                if (filter.containsKey("id")) {
-                    result = result.filter(
-                        course -> course.getInformation().getId().contains(filter.get("id").toString())
-                    );
-                }
-                if (filter.containsKey("name")) {
-                    Predicate<Course> condition_1 = course -> course.getInformation().getName().get("english")
-                        .contains(filter.get("name").toString());
-                    Predicate<Course> condition_2 = course -> course.getInformation().getName().get("chinese")
-                        .contains(filter.get("name").toString());
-
-                    result = result.filter(
-                        condition_1.or(condition_2)
-                    );
-                }
-
-                return result.collect(Collectors.toList());
+                filter = dataFetchingEnvironment.getArgument("filter");
             }
 
-            return this.handler.getCourses();
+            return this.handler.getCourses(filter);
         };
     }
 }

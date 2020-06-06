@@ -8,12 +8,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
 
 import com.entity.Course;
 import com.entity.CourseGuideline;
 import com.entity.CourseInformation;
+import com.google.common.base.Predicate;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -106,7 +109,50 @@ public class CourseHandler {
         return result;
     }
 
-    public List<Course> getCourses() {
-        return this.courses;
+    public List<Course> getCourses(Map<String, String> filter) {
+        Stream<Course> result = this.courses.stream();
+
+        if (filter.containsKey("id")) {
+            result = result.filter(
+                course -> course.getInformation().getId().contains(filter.get("id").toString())
+            );
+        }
+        if (filter.containsKey("name")) {
+            Predicate<Course> condition_1 = course -> course.getInformation().getName().get("english")
+                .contains(filter.get("name").toString());
+            Predicate<Course> condition_2 = course -> course.getInformation().getName().get("chinese")
+                .contains(filter.get("name").toString());
+
+            result = result.filter(
+                condition_1.or(condition_2)
+            );
+        }
+        if (filter.containsKey("facultyName")) {
+            result = result.filter(
+                course -> course.getInformation().getFacultyName().contains(filter.get("facultyName").toString())
+            );
+        }
+        if (filter.containsKey("professor")) {
+            result = result.filter(
+                course -> course.getInformation().getProfessor().contains(filter.get("professor").toString())
+            );
+        }
+        if (filter.containsKey("mainField")) {
+            result = result.filter(
+                course -> course.getInformation().getMainField().contains(filter.get("mainField").toString())
+            );
+        }
+        if (filter.containsKey("subField")) {
+            result = result.filter(
+                course -> course.getInformation().getSubField().contains(filter.get("subField").toString())
+            );
+        }
+        if (filter.containsKey("description")) {
+            result = result.filter(
+                course -> course.getInformation().getDescription().contains(filter.get("description").toString())
+            );
+        }
+
+        return result.collect(Collectors.toList());
     }
 }

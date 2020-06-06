@@ -49,4 +49,9 @@ type Bilingual {
 input CourseFilterInput {
     id: ID
     name: String
+    facultyName: String
+    professor: String
+    mainField: String
+    subField: String
+    description: String
 }
