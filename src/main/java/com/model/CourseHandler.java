@@ -110,6 +110,25 @@ public class CourseHandler {
         return result;
     }
 
+    public Course createCourse(String data) {
+        Gson parser = new Gson();
+
+        JsonObject json_data = parser.fromJson(data, JsonObject.class);
+
+        String json_string;
+
+        json_string = json_data.get("information").toString();
+        CourseInformation information = parser.fromJson(json_string, CourseInformation.class);
+
+        json_string = json_data.get("guideline").toString();
+        CourseGuideline guideline = parser.fromJson(json_string, CourseGuideline.class);
+
+        Course course = new Course(information, guideline);
+        this.courses.add(course);
+
+        return course;
+    }
+
     public Course getCourse(String id, String grade) {
         return this.courses.stream().filter(
             course -> course.getInformation().getId().equals(id)
@@ -207,5 +226,46 @@ public class CourseHandler {
         }
 
         return result.collect(Collectors.toList());
+    }
+
+    public Course replaceCourse(String data) {
+        Gson parser = new Gson();
+
+        JsonObject json_data = parser.fromJson(data, JsonObject.class);
+
+        String json_string;
+
+        json_string = json_data.get("information").toString();
+        CourseInformation information = parser.fromJson(json_string, CourseInformation.class);
+
+        json_string = json_data.get("guideline").toString();
+        CourseGuideline guideline = parser.fromJson(json_string, CourseGuideline.class);
+
+        Course new_course = new Course(information, guideline);
+
+        Course old_course = this.courses.stream().filter(
+            course -> course.getInformation().getId().equals(new_course.getInformation().getId())
+        ).filter(
+            course -> course.getInformation().getGrade().equals(new_course.getInformation().getGrade())
+        ).findFirst().orElse(null);
+
+        this.courses.remove(old_course);
+        this.courses.add(new_course);
+
+        return new_course;
+    }
+
+    public void deleteCourse(String data) {
+        Gson parser = new Gson();
+
+        JsonObject json_data = parser.fromJson(data, JsonObject.class);
+
+        Course match = this.courses.stream().filter(
+            course -> course.getInformation().getId().equals(json_data.get("id").getAsString())
+        ).filter(
+            course -> course.getInformation().getGrade().equals(json_data.get("grade").getAsString())
+        ).findFirst().orElse(null);
+
+        this.courses.remove(match);
     }
 }
